@@ -1,1 +1,111 @@
-
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101b19">
+<title>الشفاء | نموذج تجريبي</title>
+<style>
+:root{--bg:#08110f;--panel:#0d1a17;--panel2:#10221d;--line:#1c4035;--mint:#54d7ae;--mint2:#b7f2d8;--green:#28c486;--red:#ff6575;--amber:#f3cc61;--text:#e8f5ef;--muted:#9bb9ad}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% 0%,#12382b 0,#08110f 43%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid var(--line);background:#081310eF;position:sticky;top:0;z-index:3}.brand{display:flex;align-items:center;gap:10px}.logo{display:grid;place-items:center;width:47px;height:47px;border-radius:14px;background:linear-gradient(145deg,#b7f2d8,#22a87b);color:#092219;font-size:27px;font-weight:900}.brand h1{margin:0;font-size:1.35rem}.brand p{margin:2px 0 0;color:var(--muted);font-size:.78rem}.topmeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:.78rem}.pill{border:1px solid var(--line);border-radius:30px;padding:7px 10px}
+.layout{display:grid;grid-template-columns:205px minmax(0,1fr);max-width:1500px;margin:auto;min-height:calc(100vh - 78px)}aside{padding:13px 10px;border-left:1px solid var(--line);background:#091411a8}.navbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:right;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--muted);padding:11px 12px;margin:3px 0}.navbtn.active,.navbtn:hover{background:#0d4835;border-color:#1b7757;color:var(--mint2)}main{padding:16px;min-width:0}.banner{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--line);border-radius:15px;padding:15px;margin-bottom:14px;background:linear-gradient(100deg,#0d241d,#071310)}.banner h2{margin:0 0 5px;font-size:1.12rem}.banner p{margin:0;color:var(--muted);font-size:.84rem}.banner .mark{font-size:2.4rem;color:var(--mint);padding:0 8px}
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-bottom:13px}.stat,.panel{border:1px solid var(--line);border-radius:13px;background:linear-gradient(145deg,#10221d,#0b1714);box-shadow:0 8px 22px #0002}.stat{padding:13px}.stat small{color:var(--muted);font-size:.78rem}.stat .num{font-size:clamp(1.05rem,2vw,1.5rem);font-weight:800;margin-top:8px;color:var(--mint2);overflow-wrap:anywhere}.num.money{color:var(--green)}.num.red{color:var(--red)}.sectiongrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{padding:14px;margin-bottom:12px;min-width:0}.panel h3{margin:0 0 12px;font-size:1rem}.bars{display:grid;gap:10px}.barrow{display:grid;grid-template-columns:82px 1fr 35px;gap:8px;align-items:center;color:var(--muted);font-size:.8rem}.track{height:9px;background:#07100d;border-radius:9px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#168e67,var(--mint));border-radius:9px}.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #20885f;background:#08794f;color:#eafff4;border-radius:9px;padding:9px 12px;font-weight:650}.btn:hover{filter:brightness(1.12)}.btn.secondary{background:#102a22;color:var(--mint2);border-color:#285342}.btn.red{background:#3a171e;border-color:#7f303c;color:#ffb7bf}.btn.gold{background:#342d14;border-color:#74612b;color:#ffe89b}.btn.tiny{padding:5px 8px;font-size:.78rem}
+.quick{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin:12px 0}.quick button{border:1px solid var(--line);border-radius:11px;background:#0a2019;color:var(--mint2);padding:12px 5px;min-height:76px}.quick button span{display:block;font-size:1.35rem;margin-bottom:5px}.quick button small{font-size:.75rem}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.83rem;min-width:580px}th,td{text-align:right;padding:10px 9px;border-bottom:1px solid #1a3a30;vertical-align:top}th{color:var(--muted);font-weight:600;background:#0b1915}td{overflow-wrap:anywhere}.moneygreen{color:var(--green);font-weight:700}.moneyred{color:var(--red);font-weight:700}.expiry-soon{color:#ff6575!important;font-weight:800}.expiry-expired{color:#ff6575!important;font-weight:900;text-decoration:underline}.muted{color:var(--muted)}.tag{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:3px 6px;color:var(--mint2);font-size:.75rem}.tag.red{color:var(--red);border-color:#70303b}.tag.gold{color:var(--amber);border-color:#655426}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.full{grid-column:1/-1}.field label{font-size:.82rem;color:var(--muted)}.field input,.field select,.field textarea{width:100%;min-width:0;background:#07120f;border:1px solid #254c3e;color:var(--text);border-radius:8px;padding:10px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--mint)}.field textarea{min-height:70px}.search{width:100%;padding:10px;background:#07120f;color:var(--text);border:1px solid var(--line);border-radius:9px;margin:8px 0}.subnav{display:flex;gap:6px;overflow:auto;margin-bottom:10px;padding-bottom:4px}.subnav button{white-space:nowrap;border:1px solid var(--line);border-radius:9px;background:#0c1e18;color:var(--muted);padding:8px 11px}.subnav button.active{background:#08794f;color:white}.recordlist{display:grid;gap:8px}.record{border:1px solid var(--line);border-radius:10px;padding:11px;background:#0a1713}.recordtop{display:flex;justify-content:space-between;gap:10px}.record p{color:var(--muted);font-size:.8rem;line-height:1.7;margin:6px 0;overflow-wrap:anywhere}.empty{padding:22px;text-align:center;color:var(--muted)}.notice{border:1px solid #6c5b26;background:#29240f;color:#f1df9c;padding:10px 12px;border-radius:10px;font-size:.82rem;line-height:1.65;margin-bottom:12px}.foot{padding:12px;text-align:center;color:var(--muted);font-size:.75rem}
+dialog{background:#0d1b16;color:var(--text);border:1px solid #285342;border-radius:15px;width:min(650px,calc(100% - 20px));padding:18px;max-height:90vh;overflow:auto}dialog::backdrop{background:#000b}dialog h3{margin-top:0}.dlgactions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.checkboxrow{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.84rem}.checkboxrow input{width:auto}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.quick{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){.layout{display:block}aside{display:flex;overflow:auto;border-left:0;border-bottom:1px solid var(--line);padding:6px;position:sticky;top:77px;z-index:2}.navbtn{width:auto;white-space:nowrap;margin:0;padding:9px 11px}.navbtn span:first-child{display:none}main{padding:10px}.top{padding:12px}.topmeta .pill:nth-child(2){display:none}.banner{padding:12px}.banner .mark{display:none}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.stat{padding:11px}.sectiongrid{grid-template-columns:1fr}.quick{grid-template-columns:repeat(3,minmax(0,1fr))}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand"><div class="logo">♥</div><div><h1>الشفاء</h1><p>إدارة العيادة التمريضية</p></div></div><div class="topmeta"><span class="pill" id="today"></span><span class="pill">◉ يعمل محلياً</span><button class="btn secondary" id="lockBtn">🔒 قفل</button></div></header>
+<div class="layout">
+<aside id="nav"></aside>
+<main>
+<div class="banner"><div><h2 id="welcome">مرحباً بك في الشفاء</h2><p>صحتك تهمنا — سجّل العمليات وراجع حسابات العيادة من مكان واحد.</p></div><div class="mark">✚</div></div>
+<div id="dashboard">
+<div class="stats">
+<div class="stat"><small>إجمالي المرضى</small><div class="num" id="nPatients">0</div></div>
+<div class="stat"><small>الخدمات المسجلة</small><div class="num" id="nServices">0</div></div>
+<div class="stat"><small>المخزون الحالي</small><div class="num" id="nStock">0</div></div>
+<div class="stat"><small>دخل العيادة</small><div class="num money" id="nIncome">0 د.ع</div></div>
+<div class="stat"><small>المصاريف</small><div class="num red" id="nExpenses">0 د.ع</div></div>
+<div class="stat"><small>الديون المستحقة</small><div class="num red" id="nDebt">0 د.ع</div></div>
+</div>
+<div class="sectiongrid">
+<section class="panel"><h3>ملخص السجلات</h3><div id="bars" class="bars"></div></section>
+<section class="panel"><h3>تنبيهات المخزون</h3><div id="alerts"></div></section>
+</div>
+<div class="quick" id="quick"></div>
+<section class="panel"><h3>آخر العمليات</h3><div class="tablewrap"><table><thead><tr><th>النوع</th><th>الاسم</th><th>المبلغ</th><th>التاريخ والوقت</th><th>الحساب</th></tr></thead><tbody id="recent"></tbody></table></div></section>
+</div>
+<div id="workspace" hidden></div>
+<div class="foot">الشفاء · نموذج تجريبي قابل للاختبار · احتفظ بنسخة احتياطية بانتظام</div>
+</main></div>
+<dialog id="login"><form id="loginForm"><h3>🔐 كلمة مرور البرنامج</h3><p class="muted" id="loginHint">أنشئ كلمة مرور محلية للبدء.</p><div class="formgrid"><div class="field full"><label>كلمة المرور</label><input id="pw" type="password" minlength="4" required autocomplete="current-password"></div></div><p id="loginErr" style="color:var(--red)"></p><div class="dlgactions"><button class="btn" type="submit">متابعة</button></div></form></dialog>
+<dialog id="editor"><form id="editForm"><h3 id="editTitle">إضافة سجل</h3><div id="editFields" class="formgrid"></div><div class="dlgactions"><button class="btn" type="submit">حفظ</button><button class="btn secondary" type="button" id="cancelEdit">إلغاء</button></div></form></dialog>
+<dialog id="invoiceDialog"><h3>معاينة الفاتورة</h3><div id="invoicePreview"></div><div class="dlgactions"><button class="btn" id="printInvoice">طباعة / حفظ PDF</button><button class="btn secondary" id="closeInvoice">إغلاق</button></div></dialog>
+<script>
+const $=id=>document.getElementById(id), KEY="alshifa.test.v1", PASSKEY="alshifa.test.pass", PASS2KEY="alshifa.test.adminpass";
+const defs={
+ patients:{label:"المرضى",icon:"♟",fields:[["name","اسم المريض","text",1],["phone","رقم الهاتف","tel"],["age","العمر","number"],["allergy","الحساسية","text"],["chronic","الأمراض المزمنة","text"],["notes","ملاحظات","textarea"]]},
+ stock:{label:"المخزون",icon:"▣",fields:[["name","اسم المادة","text",1],["code","رمز المادة / الباركود","text",1],["qty","الكمية الحالية","number",1],["unit","الوحدة (علبة/قطعة/مل...)","text"],["buy","سعر الشراء للوحدة بالدينار","number"],["sell","سعر البيع للوحدة بالدينار","number"],["min","حد التنبيه الأدنى","number"],["expiry","تاريخ الانتهاء","date"],["notes","ملاحظات","textarea"]]},
+ services:{label:"الخدمات",icon:"✚",fields:[["name","اسم الخدمة","text",1],["price","السعر بالدينار","number",1],["materials","المواد المستهلكة (اختر اقتراحاً واكتب :الكمية؛ مثال G01:2,S02:1)","text"],["notes","ملاحظات","textarea"]]},
+ visits:{label:"زيارات المرضى",icon:"▦",fields:[["patient","اسم المريض","text",1],["service","الخدمة المقدمة","text",1],["amount","السعر قبل الخصم بالدينار","number",1],["discount","الخصم","select",0,[["0","بدون خصم"],["15","15%"],["20","20%"]]],["paid","المبلغ المدفوع بالدينار","number"],["materials","المواد المستهلكة (اختر اقتراحاً واكتب :الكمية؛ مثال G01:2,S02:1)","text"],["notes","ملاحظات","textarea"]]},
+ home:{label:"الزيارات المنزلية",icon:"⌂",fields:[["patient","اسم المريض","text",1],["service","الخدمة المنزلية","text",1],["amount","سعر الخدمة بالدينار","number",1],["discount","الخصم","select",0,[["0","بدون خصم"],["15","15%"],["20","20%"]]],["paid","المبلغ المدفوع بالدينار","number"],["materials","مواد منزلية (اختر الاسم أو الرمز؛ للتوثيق فقط)","text"],["notes","ملاحظات","textarea"]]},
+ sales:{label:"المبيعات",icon:"▣",fields:[["item","اسم المادة المباعة","text",1],["qty","الكمية","number",1],["unitPrice","سعر الوحدة بالدينار","number",1],["discount","الخصم","select",0,[["0","بدون خصم"],["15","15%"],["20","20%"]]],["paid","المبلغ المدفوع بالدينار","number"],["notes","ملاحظات","textarea"]]},
+ expenses:{label:"المصاريف",icon:"−",fields:[["name","نوع المصروف","text",1],["amount","المبلغ بالدينار","number",1],["reason","سبب المصروف (إلزامي)","text",1],["notes","ملاحظات","textarea"]]},
+ purchases:{label:"المشتريات",icon:"＋",fields:[["code","رمز المادة في المخزون","text",1],["qty","الكمية المشتراة","number",1],["unitCost","تكلفة الوحدة بالدينار","number",1],["supplier","المجهز","text"],["notes","ملاحظات","textarea"]]},
+ waste:{label:"التالف",icon:"♲",fields:[["code","رمز المادة في المخزون","text",1],["qty","الكمية التالفة","number",1],["reason","سبب التلف (إلزامي)","text",1]]},
+ debts:{label:"الديون",icon:"!",fields:[["person","اسم المريض/الجهة","text",1],["amount","قيمة الدين بالدينار","number",1],["paid","المبلغ المسدد","number"],["notes","ملاحظات","textarea"]]},
+ employees:{label:"الموظفون",icon:"♙",fields:[["name","اسم الموظف","text",1],["role","الوظيفة","text"],["phone","رقم الهاتف","tel"],["salary","الراتب الشهري بالدينار","number",1],["notes","ملاحظات","textarea"]]},
+ staffAccounts:{label:"حسابات الموظفين",icon:"▤",fields:[["employee","اسم الموظف (اختر من الاقتراحات)","text",1],["action","نوع الحركة","select",1,[["سلفة","سلفة"],["استقطاع","استقطاع"],["استقطاع خطأ/تلف","استقطاع بسبب خطأ أو تلف مادة"],["خصم إجازة","خصم إجازة"],["تسديد سلفة","تسديد سلفة"],["مكافأة","مكافأة"]]],["code","رمز المادة أو اسمها (لاستقطاع الخطأ/التلف)","text"],["qty","كمية المادة (لاستقطاع الخطأ/التلف)","number"],["amount","قيمة الخصم/السلفة بالدينار (تُحسب تلقائياً عند اختيار استقطاع خطأ/تلف)","number"],["days","عدد أيام الإجازة (لخصم الإجازة)","number"],["reason","السبب (إلزامي)","text",1],["notes","ملاحظات","textarea"]]},
+ employeeSales:{label:"مشتريات الموظفين",icon:"🛒",fields:[["employee","اسم الموظف","text",1],["code","رمز المادة أو اسمها","text",1],["qty","الكمية","number",1],["reason","سبب الشراء (إلزامي)","text",1],["notes","ملاحظات","textarea"]]}
+};
+let db=loadDB(),active="home",editId=null,editKind=null;
+function blankDB(){return {version:1,records:Object.fromEntries(Object.keys(defs).map(k=>[k,[]])),nextInvoice:1,homeLedger:[]}}
+function loadDB(){try{let x=JSON.parse(localStorage.getItem(KEY));if(!x||!x.records)return blankDB();for(let k of Object.keys(defs))x.records[k]??=[];x.homeLedger??=[];return x}catch(e){return blankDB()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){alert("تعذر الحفظ. صدّر نسخة احتياطية واحذف بعض الملفات من الهاتف.");}renderAll()}
+function list(k=active){return db.records[k]||[]}
+function fmt(n){return Number(n||0).toLocaleString("en-US")}
+function now(){return new Date().toLocaleString("ar-IQ",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function navRender(){$("nav").innerHTML=[["dashboard","⌂","الرئيسية"],...Object.entries(defs).map(([k,d])=>[k,d.icon,d.label]),["reports","▥","التقارير"],["backup","⇧","النسخ الاحتياطي"]].map(([k,i,l])=>`<button class="navbtn ${active===k?"active":""}" data-nav="${k}"><span>${i}</span><span>${l}</span></button>`).join("")}
+function moneyStats(){
+ const clinicVisits=list("visits"), sales=list("sales"), expenses=list("expenses"), debts=list("debts");
+ const clinicIncome=clinicVisits.reduce((s,r)=>s+Number(r.final||0),0)+sales.reduce((s,r)=>s+Number(r.final||0),0)+list("employeeSales").reduce((s,r)=>s+Number(r.final||0),0);
+ const exp=expenses.reduce((s,r)=>s+Number(r.amount||0),0)+list("purchases").reduce((s,r)=>s+Number(r.costTotal||0),0);
+ const debt=clinicVisits.reduce((s,r)=>s+Math.max(0,Number(r.final||0)-Number(r.paid||0)),0)+sales.reduce((s,r)=>s+Math.max(0,Number(r.final||0)-Number(r.paid||0)),0)+list("employeeSales").reduce((s,r)=>s+Number(r.due||r.final||0),0)+debts.reduce((s,r)=>s+Math.max(0,Number(r.amount||0)-Number(r.paid||0)),0);
+ const homeIncome=list("home").reduce((s,r)=>s+Number(r.final||0),0);
+ return {clinicIncome,exp,debt,homeIncome}
+}
+function renderDashboard(){
+ const m=moneyStats(),stock=list("stock").reduce((s,r)=>s+Number(r.qty||0),0);
+ $("nPatients").textContent=list("patients").length;$("nServices").textContent=list("services").length;$("nStock").textContent=fmt(stock);
+ $("nIncome").textContent=fmt(m.clinicIncome)+" د.ع";$("nExpenses").textContent=fmt(m.exp)+" د.ع";$("nDebt").textContent=fmt(m.debt)+" د.ع";
+ const keys=Object.keys(defs),max=Math.max(1,...keys.map(k=>list(k).length));
+ $("bars").innerHTML=keys.map(k=>`<div class="barrow"><span>${defs[k].label}</span><div class="track"><div class="fill" style="width:${list(k).length?Math.max(3,list(k).length/max*100):0}%"></div></div><b>${list(k).length}</b></div>`).join("");
+ let low=list("stock").filter(x=>Number(x.qty||0)<=Number(x.min||0));
+ $("alerts").innerHTML=low.length?low.map(x=>`<p><span class="tag red">${fmt(x.qty)}</span> ${esc(x.name)} <small class="muted">(${esc(x.code)})</small></p>`).join(""):'<p class="muted">لا توجد مواد تحت حد التنبيه.</p>';
+ $("quick").innerHTML=[["stock","▣","إضافة مادة"],["patients","♟","إضافة مريض"],["services","✚","إضافة خدمة"],["visits","▦","زيارة مريض"],["home","⌂","زيارة منزلية"],["sales","↗","بيع مادة"],["expenses","−","مصروف"],["employees","♙","إضافة موظف"],["staffAccounts","▤","حركة موظف"],["employeeSales","🛒","مشتريات موظف"]].map(([k,i,l])=>`<button data-quick="${k}"><span>${i}</span><small>${l}</small></button>`).join("");
+ let rec=[];for(let k of ["visits","home","sales","employeeSales","expenses","purchases","waste"])for(let r of list(k))rec.push({k,r});
+ rec.sort((a,b)=>(b.r.ts||0)-(a.r.ts||0));$("recent").innerHTML=rec.slice(0,7).map(({k,r})=>`<tr><td>${defs[k].label}</td><td>${esc(r.patient||r.item||r.name||r.code||"—")}</td><td class="${["expenses","purchases","waste"].includes(k)?"moneyred":"moneygreen"}">${fmt(r.final??r.amount??r.costTotal??0)}</td><td>${esc(r.createdAt||"—")}</td><td>${k==="home"?"مستقل":k==="expenses"?"مصروف":"العيادة"}</td></tr>`).join("")||'<tr><td colspan="5" class="empty">لا توجد عمليات بعد.</td></tr>';
+}
+function renderWorkspace(){
+ $("dashboard").hidden=!(active==="dashboard");$("workspace").hidden=active==="dashboard";
+ if(active==="dashboard"){navRender();return}
+ if(active==="reports"){renderReports();return}
+ if(active==="backup"){renderBackup();return}
+ let d=defs[active];if(!d){active="dashboard";renderAll();return}
+ $("workspace").innerHTML=`<section class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h3>${d.label}</h3><button class="btn" id="newRecord">＋ إضافة سجل</button></div><input class="search" id="filterRecords" placeholder="ابحث في ${d.label}..."><div id="recordsList" class="recordlist"></div></section>`;
+ $("newRecord").onclick=()=>openEditor(active);$("filterRecords").oninput=renderRecords;renderRecords();navRender()
+}
+function expiryStatus(dateStr){if(!dateStr)return "";const today=new Date();today.setHours(0,0,0,0);const expiry=new Date(dateStr+"T00:00:00");if(Number.isNaN(expiry.getTime()))return "";const days=Math.round((expiry.getTime()-today.getTime())/86400000);if(days<0)return "expiry-expired";if(days<=2)return "expiry-soon";return ""}
+function renderRecords(){
+ let q=($("filterRecords")?.value||"").toLowerCase();
+ let rows=list().filter(r=>JSON.stringify(r).toLowerCase().includes(q));
+ if(active==="employeeSales"){
+   const total=rows.reduce((s,r)=>s+Number(r.final||0),0);
+   $("recordsList").innerHTML=`<section class="panel"><h3>مبيعات الموظفين — خصم ثابت 20%</h3><p class="muted">سعر الموظف هو سعر البيع المسجل في المخزون ناقص خصم ثابت 20%. لا يُدفع أي مبلغ نقداً؛ كامل الإجمالي يُضاف إلى استقطاع الراتب. الكمية تُخصم من المخزون عند التسجيل.</p><div class="tablewrap"><table><thead><tr><th>الموظف</th><th>الم
