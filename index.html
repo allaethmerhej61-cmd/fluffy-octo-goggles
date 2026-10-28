@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<title>إدارة العيادة التمريضية</title>
+<style>
+:root{--bg:#f3f6f8;--card:#fff;--ink:#17212b;--muted:#64748b;--brand:#0f766e;--brand2:#115e59;--line:#e2e8f0;--danger:#b91c1c;--warn:#b45309}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;font-size:14px}
+header{background:linear-gradient(135deg,#115e59,#0f766e);color:white;padding:18px 16px 14px;position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #0001}
+header h1{font-size:20px;margin:0 0 5px}header p{margin:0;font-size:12px;opacity:.9}
+nav{display:flex;gap:7px;overflow:auto;padding:10px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:72px;z-index:4}
+nav button{white-space:nowrap;border:0;border-radius:20px;padding:9px 13px;background:#edf2f7;color:#334155;font-weight:bold}
+nav button.active{background:var(--brand);color:#fff}
+main{max-width:1100px;margin:auto;padding:14px}
+.view{display:none}.view.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:14px}
+.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 2px 8px #0f172a05}
+.metric{font-size:23px;font-weight:bold;margin-top:8px}.label{color:var(--muted);font-size:12px}
+h2{font-size:18px;margin:4px 0 12px}h3{font-size:15px;margin:4px 0 12px}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:end}.row>*{flex:1;min-width:130px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;background:white;font:inherit;color:inherit}
+textarea{min-height:72px;resize:vertical}label{display:block;font-size:12px;color:#475569;margin-bottom:5px}
+.field{margin-bottom:10px}
+button{font:inherit;cursor:pointer}.btn{border:0;background:var(--brand);color:white;border-radius:9px;padding:10px 13px;font-weight:bold}.btn.secondary{background:#e2e8f0;color:#1e293b}.btn.danger{background:#fee2e2;color:#991b1b}.btn.small{padding:6px 9px;font-size:12px}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:right;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;color:#475569;background:#f8fafc}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:12px}
+.empty{padding:22px;text-align:center;color:var(--muted)}
+.notice{padding:10px 12px;border-radius:10px;background:#fff7ed;color:#9a3412;margin-bottom:12px;border:1px solid #fed7aa}
+.good{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+.smalltext{font-size:12px;color:var(--muted)}.tag{display:inline-block;border-radius:20px;padding:4px 8px;background:#e2e8f0;font-size:11px}
+hr{border:0;border-top:1px solid var(--line);margin:15px 0}
+@media(min-width:760px){main{padding:22px}header{padding-inline:max(22px,calc((100vw - 1050px)/2))}}
+@media print{header,nav,.no-print,.actions,form{display:none!important}body{background:white}main{max-width:none;padding:0}.view{display:none!important}.view.active{display:block!important}.panel,.card{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<header><h1>إدارة العيادة التمريضية</h1><p>نسخة أولية تعمل محلياً على جهازك — العملة: الدينار العراقي والدولار</p></header>
+<nav id="nav"></nav>
+<main>
+<section class="view active" id="dashboard">
+<h2>لوحة التحكم</h2><div id="alerts"></div><div class="cards" id="metrics"></div>
+<div class="panel"><h3>اختصارات سريعة</h3><div class="actions">
+<button class="btn" onclick="go('patients')">إضافة مريض</button><button class="btn" onclick="go('inventory')">إضافة مادة للمخزون</button><button class="btn" onclick="go('visits')">تسجيل زيارة</button><button class="btn" onclick="go('sales')">فاتورة بيع</button>
+</div><p class="smalltext">تُحفظ البيانات على هذا الجهاز داخل المتصفح. استخدم النسخ الاحتياطي بانتظام.</p></div>
+</section>
+<section class="view" id="patients"><h2>ملفات المرضى</h2>
+<div class="panel"><form id="patientForm"><input type="hidden" id="pId"><div class="row">
+<div class="field"><label>اسم المريض *</label><input id="pName" required></div><div class="field"><label>رقم الهاتف</label><input id="pPhone" inputmode="tel"></div><div class="field"><label>العمر</label><input id="pAge" type="number" min="0"></div>
+</div><div class="row"><div class="field"><label>الحساسية</label><input id="pAllergy" placeholder="إن وجدت"></div><div class="field"><label>الأمراض المزمنة</label><input id="pChronic"></div></div><div class="field"><label>ملاحظات طبية</label><textarea id="pNotes"></textarea></div><button class="btn">حفظ بيانات المريض</button><button type="button" class="btn secondary" onclick="resetPatient()">إلغاء</button></form></div>
+<div class="field" style="margin-top:12px"><input id="patientSearch" placeholder="بحث بالاسم أو الهاتف" oninput="renderPatients()"></div><div id="patientsTable"></div>
+</section>
+<section class="view" id="visits"><h2>الزيارات والخدمات التمريضية</h2>
+<div class="panel"><form id="visitForm"><div class="row"><div class="field"><label>المريض *</label><select id="vPatient" required></select></div><div class="field"><label>الخدمة *</label><select id="vService" required></select></div><div class="field"><label>التاريخ</label><input id="vDate" type="date" required></div></div>
+<div class="row"><div class="field"><label>المبلغ</label><input id="vAmount" type="number" min="0" step="0.01" required></div><div class="field"><label>العملة</label><select id="vCurrency"><option value="IQD">دينار عراقي</option><option value="USD">دولار أمريكي</option></select></div><div class="field"><label>المبلغ المدفوع</label><input id="vPaid" type="number" min="0" step="0.01" value="0"></div></div>
+<div class="field"><label>ملاحظات الزيارة</label><textarea id="vNotes"></textarea></div><button class="btn">تسجيل الزيارة</button></form></div><div id="visitsTable"></div>
+</section>
+<section class="view" id="inventory"><h2>المخزون والجرد</h2>
+<div class="panel"><form id="itemForm"><input type="hidden" id="iId"><div class="row"><div class="field"><label>اسم المادة *</label><input id="iName" required></div><div class="field"><label>الباركود</label><input id="iBarcode" placeholder="امسح الباركود هنا"></div><div class="field"><label>التصنيف</label><input id="iCategory" placeholder="مستلزمات / أدوية..."></div></div>
+<div class="row"><div class="field"><label>الكمية المتوفرة</label><input id="iQty" type="number" min="0" step="0.01" value="0" required></div><div class="field"><label>حد التنبيه</label><input id="iMin" type="number" min="0" step="0.01" value="5"></div><div class="field"><label>سعر الشراء للوحدة</label><input id="iCost" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>سعر البيع للوحدة</label><input id="iPrice" type="number" min="0" step="0.01" value="0"></div></div>
+<div class="row"><div class="field"><label>العملة</label><select id="iCurrency"><option value="IQD">دينار عراقي</option><option value="USD">دولار أمريكي</option></select></div><div class="field"><label>تاريخ انتهاء الصلاحية</label><input id="iExpiry" type="date"></div><div class="field"><label>رقم التشغيلة</label><input id="iBatch"></div></div><button class="btn">حفظ المادة</button><button type="button" class="btn secondary" onclick="resetItem()">إلغاء</button></form></div>
+<div class="row" style="margin-top:12px"><div><input id="itemSearch" placeholder="بحث بالاسم أو الباركود" oninput="renderInventory()"></div><div><button class="btn secondary" onclick="scanPrompt()">إدخال باركود / مسح ضوئي</button></div></div><div id="inventoryTable"></div>
+</section>
+<section class="view" id="purchases"><h2>المشتريات والموردون</h2>
+<div class="panel"><form id="purchaseForm"><div class="row"><div class="field"><label>المورد</label><input id="buySupplier" required></div><div class="field"><label>المادة *</label><select id="buyItem" required></select></div><div class="field"><label>الكمية *</label><input id="buyQty" type="number" min=".01" step=".01" required></div></div><div class="row"><div class="field"><label>سعر الوحدة</label><input id="buyCost" type="number" min="0" step=".01" required></div><div class="field"><label>العملة</label><select id="buyCurrency"><option value="IQD">دينار عراقي</option><option value="USD">دولار أمريكي</option></select></div><div class="field"><label>المبلغ المدفوع</label><input id="buyPaid" type="number" min="0" step=".01" value="0"></div></div><button class="btn">تسجيل المشتريات وإضافة المخزون</button></form></div><div id="purchasesTable"></div>
+</section>
+<section class="view" id="sales"><h2>المبيعات والفواتير</h2>
+<div class="panel"><form id="saleForm"><div class="row"><div class="field"><label>المشتري (اختياري)</label><input id="sCustomer"></div><div class="field"><label>المادة *</label><select id="sItem" required></select></div><div class="field"><label>الكمية *</label><input id="sQty" type="number" min=".01" step=".01" required></div></div><div class="row"><div class="field"><label>سعر الوحدة</label><input id="sPrice" type="number" min="0" step=".01" required></div><div class="field"><label>العملة</label><select id="sCurrency"><option value="IQD">دينار عراقي</option><option value="USD">دولار أمريكي</option></select></div><div class="field"><label>المبلغ المدفوع</label><input id="sPaid" type="number" min="0" step=".01" value="0"></div></div><button class="btn">إصدار فاتورة وخصم المخزون</button></form></div><div id="salesTable"></div>
+</section>
+<section class="view" id="services"><h2>قائمة الخدمات والأسعار</h2>
+<div class="panel"><form id="serviceForm"><input type="hidden" id="svId"><div class="row"><div class="field"><label>اسم الخدمة *</label><input id="svName" required placeholder="مثلاً: قياس ضغط الدم"></div><div class="field"><label>السعر</label><input id="svPrice" type="number" min="0" step=".01" required value="0"></div><div class="field"><label>العملة</label><select id="svCurrency"><option value="IQD">دينار عراقي</option><option value="USD">دولار أمريكي</option></select></div></div><button class="btn">حفظ الخدمة</button></form></div><div id="servicesTable"></div>
+</section>
+<section class="view" id="reports"><h2>التقارير والديون</h2><div class="cards" id="reportMetrics"></div><div class="panel"><h3>ملخص حسب العملة</h3><div id="currencyReport"></div></div><div class="panel" style="margin-top:12px"><h3>الديون المستحقة</h3><div id="debtsTable"></div></div><div class="actions no-print"><button class="btn secondary" onclick="window.print()">طباعة التقرير</button></div></section>
+<section class="view" id="backup"><h2>النسخ الاحتياطي والإعدادات</h2><div class="panel"><h3>حفظ نسخة احتياطية</h3><p>ينزّل ملف JSON يحتوي على بيانات البرنامج المحفوظة على هذا الجهاز.</p><button class="btn" onclick="exportBackup()">تنزيل النسخة الاحتياطية</button><hr><h3>استعادة نسخة احتياطية</h3><p class="smalltext">تنبيه: الاستعادة تستبدل البيانات الحالية بالبيانات الموجودة في الملف المختار.</p><input type="file" id="backupFile" accept=".json,application/json"><div class="actions"><button class="btn danger" onclick="importBackup()">استعادة البيانات</button></div><hr><h3>ملاحظات مهمة</h3><ul><li>البيانات محلية في المتصفح ولا تُزامن مع أجهزة أخرى.</li><li>لا تمسح بيانات المتصفح قبل تصدير نسخة احتياطية.</li><li>هذه نسخة أولية وليست بديلاً عن نظام طبي معتمد أو مراجعة أمنية.</li></ul></div></section>
+</main>
+<script>
+const KEY='nursingClinicApp_v1';
+const today=()=>new Date().toISOString().slice(0,10);
+const initial={patients:[],items:[],services:[{id:'sv1',name:'قياس ضغط الدم',price:5000,currency:'IQD'},{id:'sv2',name:'حقن',price:5000,currency:'IQD'},{id:'sv3',name:'تضميد جرح',price:10000,currency:'IQD'}],visits:[],purchases:[],sales:[]};
+let db=load();
+function load(){try{return {...structuredClone(initial),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return structuredClone(initial)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function num(x){return Number(x)||0}
+function money(x,c){return new Intl.NumberFormat('ar-IQ',{maximumFractionDigits:2}).format(num(x))+' '+(c==='USD'?'$':'د.ع')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const tabs=[['dashboard','الرئيسية'],['patients','المرضى'],['visits','الزيارات'],['inventory','المخزون'],['purchases','المشتريات'],['sales','المبيعات'],['services','الخدمات'],['reports','التقارير والديون'],['backup','النسخ الاحتياطي']];
+function go(v){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));window.scrollTo(0,0);renderAll()}
+document.getElementById('nav').innerHTML=tabs.map(([id,label],i)=>`<button data-view="${id}" class="${i===0?'active':''}" onclick="go('${id}')">${label}</button>`).join('');
+function table(headers,rows){if(!rows.length)return '<div class="empty">لا توجد بيانات مسجلة بعد</div>';return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`}
+function renderDashboard(){
+ let exp=db.items.filter(x=>x.expiry&&x.expiry<=new Date(Date.now()+30*86400000).toISOString().slice(0,10));
+ let low=db.items.filter(x=>num(x.qty)<=num(x.min));
+ document.getElementById('alerts').innerHTML=(low.length?`<div class="notice">تنبيه: ${low.length} مادة وصلت إلى حد المخزون الأدنى أو أقل.</div>`:'')+(exp.length?`<div class="notice">تنبيه صلاحية: ${exp.length} مادة منتهية أو تنتهي خلال 30 يوماً.</div>`:'');
+ document.getElementById('metrics').innerHTML=[['المرضى',db.patients.length],['مواد المخزون',db.items.length],['الزيارات',db.visits.length],['فواتير البيع',db.sales.length],['فواتير الشراء',db.purchases.length]].map(([l,v])=>`<div class="card"><div class="label">${l}</div><div class="metric">${v}</div></div>`).join('');
+}
+function resetPatient(){patientForm.reset();pId.value=''}
+function renderPatients(){
+ const q=(patientSearch.value||'').toLowerCase();
+ const arr=db.patients.filter(p=>(p.name+' '+p.phone).toLowerCase().includes(q));
+ patientsTable.innerHTML=table(['المريض','الهاتف','العمر','الحساسية','الأمراض المزمنة','إجراءات'],arr.map(p=>`<tr><td><b>${esc(p.name)}</b><div class="smalltext">${esc(p.notes||'')}</div></td><td>${esc(p.phone)}</td><td>${esc(p.age)}</td><td>${esc(p.allergy)}</td><td>${esc(p.chronic)}</td><td><div class="actions"><button class="btn small secondary" onclick="editPatient('${p.id}')">تعديل</button><button class="btn small" onclick="patientHistory('${p.id}')">سجل الزيارات</button><button class="btn small danger" onclick="delPatient('${p.id}')">حذف</button></div></td></tr>`));
+ vPatient.innerHTML='<option value="">اختر مريضاً</option>'+db.patients.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+}
+patientForm.onsubmit=e=>{e.preventDefault();let p={id:pId.value||id(),name:pName.value.trim(),phone:pPhone.value,age:pAge.value,allergy:pAllergy.value,chronic:pChronic.value,notes:pNotes.value};let i=db.patients.findIndex(x=>x.id===p.id);if(i>=0)db.patients[i]=p;else db.patients.unshift(p);resetPatient();save()};
+function editPatient(pid){let p=db.patients.find(x=>x.id===pid);if(!p)return;pId.value=p.id;pName.value=p.name;pPhone.value=p.phone||'';pAge.value=p.age||'';pAllergy.value=p.allergy||'';pChronic.value=p.chronic||'';pNotes.value=p.notes||'';go('patients')}
+function delPatient(pid){if(confirm('حذف ملف المريض؟ لن تُحذف سجلات زياراته.')){db.patients=db.patients.filter(x=>x.id!==pid);save()}}
+function patientHistory(pid){let p=db.patients.find(x=>x.id===pid);let rows=db.visits.filter(v=>v.patientId===pid);alert('سجل زيارات: '+p.name+'\n'+(rows.length?rows.map(v=>`${v.date} — ${v.serviceName} — ${money(v.amount,v.currency)} — المدفوع ${money(v.paid,v.currency)}\n${v.notes||''}`).join('\n\n'):'لا توجد زيارات مسجلة'))}
+function resetItem(){itemForm.reset();iId.value='';iQty.value=0;iMin.value=5;iCost.value=0;iPrice.value=0}
+function renderInventory(){
+ const q=(itemSearch.value||'').toLowerCase();
+ const arr=db.items.filter(x=>(x.name+' '+x.barcode+' '+x.category).toLowerCase().includes(q));
+ inventoryTable.innerHTML=table(['المادة / الباركود','الكمية','التكلفة','سعر البيع','الصلاحية','الحالة','إجراءات'],arr.map(x=>{let status=num(x.qty)<=num(x.min)?'مخزون منخفض':(x.expiry&&x.expiry<=today()?'منتهي الصلاحية':'متوفر');return `<tr><td><b>${esc(x.name)}</b><div class="smalltext">${esc(x.category)} · ${esc(x.barcode)}</div></td><td>${x.qty}</td><td>${money(x.cost,x.currency)}</td><td>${money(x.price,x.currency)}</td><td>${esc(x.expiry||'—')}<div class="smalltext">${esc(x.batch||'')}</div></td><td>${status}</td><td><div class="actions"><button class="btn small secondary" onclick="editItem('${x.id}')">تعديل</button><button class="btn small danger" onclick="delItem('${x.id}')">حذف</button></div></td></tr>`}));refreshItemSelects()
+}
+itemForm.onsubmit=e=>{e.preventDefault();let x={id:iId.value||id(),name:iName.value.trim(),barcode:iBarcode.value.trim(),category:iCategory.value,qty:num(iQty.value),min:num(iMin.value),cost:num(iCost.value),price:num(iPrice.value),currency:iCurrency.value,expiry:iExpiry.value,batch:iBatch.value};let i=db.items.findIndex(y=>y.id===x.id);if(i>=0)db.items[i]=x;else db.items.unshift(x);resetItem();save()};
+function editItem(iid){let x=db.items.find(y=>y.id===iid);if(!x)return;iId.value=x.id;iName.value=x.name;iBarcode.value=x.barcode||'';iCategory.value=x.category||'';iQty.value=x.qty;iMin.value=x.min;iCost.value=x.cost;iPrice.value=x.price;iCurrency.value=x.currency;iExpiry.value=x.expiry||'';iBatch.value=x.batch||'';go('inventory')}
+function delItem(iid){if(confirm('حذف المادة من المخزون؟')){db.items=db.items.filter(x=>x.id!==iid);save()}}
+function scanPrompt(){let code=prompt('امسح الباركود باستخدام قارئ متصل أو اكتب الرقم:');if(code!==null){itemSearch.value=code;let found=db.items.find(x=>x.barcode===code.trim());if(found)editItem(found.id);else iBarcode.value=code.trim();renderInventory()}}
+function refreshItemSelects(){let opts='<option value="">اختر مادة</option>'+db.items.map(x=>`<option value="${x.id}">${esc(x.name)} — المتوفر ${x.qty}</option>`).join('');buyItem.innerHTML=opts;sItem.innerHTML=opts}
+function renderServices(){servicesTable.innerHTML=table(['الخدمة','السعر','إجراءات'],db.services.map(s=>`<tr><td>${esc(s.name)}</td><td>${money(s.price,s.currency)}</td><td><div class="actions"><button class="btn small secondary" onclick="editService('${s.id}')">تعديل</button><button class="btn small danger" onclick="delService('${s.id}')">حذف</button></div></td></tr>`));vService.innerHTML='<option value="">اختر الخدمة</option>'+db.services.map(s=>`<option value="${s.id}">${esc(s.name)} — ${money(s.price,s.currency)}</option>`).join('')}
+serviceForm.onsubmit=e=>{e.preventDefault();let s={id:svId.value||id(),name:svName.value.trim(),price:num(svPrice.value),currency:svCurrency.value};let i=db.services.findIndex(x=>x.id===s.id);if(i>=0)db.services[i]=s;else db.services.push(s);serviceForm.reset();svId.value='';svPrice.value=0;save()}
+function editService(sid){let s=db.services.find(x=>x.id===sid);svId.value=s.id;svName.value=s.name;svPrice.value=s.price;svCurrency.value=s.currency;go('services')}
+function delService(sid){if(confirm('حذف الخدمة؟')){db.services=db.services.filter(x=>x.id!==sid);save()}}
+vService.onchange=()=>{let s=db.services.find(x=>x.id===vService.value);if(s){vAmount.value=s.price;vCurrency.value=s.currency;if(!vPaid.value||vPaid.value==='0')vPaid.value=s.price}}
+vDate.value=today();
+visitForm.onsubmit=e=>{e.preventDefault();let p=db.patients.find(x=>x.id===vPatient.value),s=db.services.find(x=>x.id===vService.value);if(!p||!s)return alert('اختر المريض والخدمة');let v={id:id(),patientId:p.id,patientName:p.name,serviceId:s.id,serviceName:s.name,date:vDate.value||today(),amount:num(vAmount.value),currency:vCurrency.value,paid:num(vPaid.value),notes:vNotes.value};db.visits.unshift(v);visitForm.reset();vDate.value=today();vPaid.value=0;save()}
+function renderVisits(){visitsTable.innerHTML=table(['التاريخ','المريض','الخدمة','المبلغ','المدفوع','المتبقي','ملاحظات'],db.visits.map(v=>`<tr><td>${esc(v.date)}</td><td>${esc(v.patientName)}</td><td>${esc(v.serviceName)}</td><td>${money(v.amount,v.currency)}</td><td>${money(v.paid,v.currency)}</td><td>${money(Math.max(0,v.amount-v.paid),v.currency)}</td><td>${esc(v.notes)}</td></tr>`))}
+buyItem.onchange=()=>{let x=db.items.find(y=>y.id===buyItem.value);if(x){buyCost.value=x.cost;buyCurrency.value=x.currency}}
+purchaseForm.onsubmit=e=>{e.preventDefault();let x=db.items.find(y=>y.id===buyItem.value);if(!x)return alert('اختر مادة');let qty=num(buyQty.value),cost=num(buyCost.value),total=qty*cost,paid=num(buyPaid.value);x.qty=num(x.qty)+qty;x.cost=cost;let p={id:id(),date:today(),supplier:buySupplier.value,itemId:x.id,itemName:x.name,qty,cost,total,paid,currency:buyCurrency.value};db.purchases.unshift(p);purchaseForm.reset();buyPaid.value=0;save()}
+function renderPurchases(){purchasesTable.innerHTML=table(['التاريخ','المورد','المادة','الكمية','الإجمالي','المدفوع','المتبقي'],db.purchases.map(p=>`<tr><td>${p.date}</td><td>${esc(p.supplier)}</td><td>${esc(p.itemName)}</td><td>${p.qty}</td><td>${money(p.total,p.currency)}</td><td>${money(p.paid,p.currency)}</td><td>${money(Math.max(0,p.total-p.paid),p.currency)}</td></tr>`))}
+sItem.onchange=()=>{let x=db.items.find(y=>y.id===sItem.value);if(x){sPrice.value=x.price;sCurrency.value=x.currency}}
+saleForm.onsubmit=e=>{e.preventDefault();let x=db.items.find(y=>y.id===sItem.value);if(!x)return alert('اختر مادة');let qty=num(sQty.value);if(qty<=0)return alert('الكمية غير صحيحة');if(num(x.qty)<qty)return alert('الكمية المتوفرة غير كافية');let price=num(sPrice.value),total=qty*price,paid=num(sPaid.value);x.qty=num(x.qty)-qty;let s={id:id(),date:today(),customer:sCustomer.value,itemId:x.id,itemName:x.name,qty,price,total,cost:num(x.cost)*qty,paid,currency:sCurrency.value};db.sales.unshift(s);saleForm.reset();sPaid.value=0;save();if(confirm('تم إصدار الفاتورة. هل تريد طباعتها؟'))printInvoice(s)}
+function renderSales(){salesTable.innerHTML=table(['رقم','التاريخ','المشتري','المادة','الكمية','الإجمالي','المدفوع','المتبقي','فاتورة'],db.sales.map(s=>`<tr><td>${esc(s.id.slice(-6))}</td><td>${s.date}</td><td>${esc(s.customer||'—')}</td><td>${esc(s.itemName)}</td><td>${s.qty}</td><td>${money(s.total,s.currency)}</td><td>${money(s.paid,s.currency)}</td><td>${money(Math.max(0,s.total-s.paid),s.currency)}</td><td><button class="btn small secondary" onclick="printInvoiceById('${s.id}')">طباعة</button></td></tr>`))}
+function printInvoiceById(sid){let s=db.sales.find(x=>x.id===sid);if(s)printInvoice(s)}
+function printInvoice(s){let w=window.open('','_blank','width=700,height=700');if(!w)return alert('يرجى السماح بالنوافذ المنبثقة لطباعة الفاتورة');w.document.write(`<html lang="ar" dir="rtl"><meta charset="utf-8"><title>فاتورة العيادة</title><style>body{font-family:Tahoma,Arial;padding:28px}h2{text-align:center}table{width:100%;border-collapse:collapse;margin-top:25px}td,th{padding:12px;border:1px solid #aaa;text-align:right}.muted{color:#666}</style><h2>فاتورة العيادة التمريضية</h2><p>رقم الفاتورة: ${esc(s.id.slice(-6))}</p><p>التاريخ: ${esc(s.date)}</p><p>المشتري: ${esc(s.customer||'—')}</p><table><tr><th>المادة</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr><tr><td>${esc(s.itemName)}</td><td>${s.qty}</td><td>${money(s.price,s.currency)}</td><td>${money(s.total,s.currency)}</td></tr></table><h3>المدفوع: ${money(s.paid,s.currency)}</h3><h3>المتبقي: ${money(Math.max(0,s.total-s.paid),s.currency)}</h3><p class="muted">شكراً لزيارتكم</p><script>window.onload=()=>window.print()<\/script></html>`);w.document.close()}
+function renderReports(){
+ const all=[...db.sales.map(x=>({kind:'sale',total:x.total,paid:x.paid,currency:x.currency,cost:x.cost})),...db.visits.map(x=>({kind:'visit',total:x.amount,paid:x.paid,currency:x.currency,cost:0})),...db.purchases.map(x=>({kind:'purchase',total:x.total,paid:x.paid,currency:x.currency,cost:x.total}))];
+ const sums=['IQD','USD'].map(c=>{let sales=db.sales.filter(x=>x.currency===c).reduce((a,x)=>a+x.total,0),services=db.visits.filter(x=>x.currency===c).reduce((a,x)=>a+x.amount,0),purchases=db.purchases.filter(x=>x.currency===c).reduce((a,x)=>a+x.total,0),debtSales=db.sales.filter(x=>x.currency===c).reduce((a,x)=>a+Math.max(0,x.total-x.paid),0),debtVisits=db.visits.filter(x=>x.currency===c).reduce((a,x)=>a+Math.max(0,x.amount-x.paid),0),debtPurchases=db.purchases.filter(x=>x.currency===c).reduce((a,x)=>a+Math.max(0,x.total-x.paid),0);return {c,sales,services,purchases,debtSales,debtVisits,debtPurchases,profit:sales+services-db.sales.filter(x=>x.currency===c).reduce((a,x)=>a+x.cost,0)-purchases}});
+ reportMetrics.innerHTML=[['إجمالي المبيعات',db.sales.length],['إيرادات الخدمات',db.visits.length],['مواد المخزون',db.items.length],['الديون على العملاء',sums.reduce((a,x)=>a+x.debtSales+x.debtVisits,0)>0?'توجد مستحقات':'لا توجد']].map(([l,v])=>`<div class="card"><div class="label">${l}</div><div class="metric" style="font-size:18px">${v}</div></div>`).join('');
+ currencyReport.innerHTML=table(['العملة','مبيعات المواد','إيرادات الخدمات','المشتريات','تكلفة البضاعة المباعة','هامش تقديري قبل المصروفات','ديون العملاء','ديون الموردين'],sums.map(x=>`<tr><td>${x.c==='USD'?'الدولار':'الدينار العراقي'}</td><td>${money(x.sales,x.c)}</td><td>${money(x.services,x.c)}</td><td>${money(x.purchases,x.c)}</td><td>${money(db.sales.filter(s=>s.currency===x.c).reduce((a,s)=>a+s.cost,0),x.c)}</td><td>${money(x.sales+x.services-db.sales.filter(s=>s.currency===x.c).reduce((a,s)=>a+s.cost,0),x.c)}</td><td>${money(x.debtSales+x.debtVisits,x.c)}</td><td>${money(x.debtPurchases,x.c)}</td></tr>`));
+ let debts=[...db.sales.filter(x=>x.total>x.paid).map(x=>({date:x.date,name:x.customer||'عميل غير محدد',desc:'بيع: '+x.itemName,amount:x.total-x.paid,currency:x.currency})),...db.visits.filter(x=>x.amount>x.paid).map(x=>({date:x.date,name:x.patientName,desc:'خدمة: '+x.serviceName,amount:x.amount-x.paid,currency:x.currency})),...db.purchases.filter(x=>x.total>x.paid).map(x=>({date:x.date,name:x.supplier,desc:'شراء: '+x.itemName,amount:x.total-x.paid,currency:x.currency,supplier:true}))];
+ debtsTable.innerHTML=table(['التاريخ','الطرف','التفاصيل','المتبقي','نوع الدين'],debts.map(d=>`<tr><td>${d.date}</td><td>${esc(d.name)}</td><td>${esc(d.desc)}</td><td>${money(d.amount,d.currency)}</td><td>${d.supplier?'مستحق للمورد':'مستحق على العميل'}</td></tr>`))
+}
+function exportBackup(){let blob=new Blob([JSON.stringify({app:'nursingClinicApp',version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='clinic-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importBackup(){let f=backupFile.files[0];if(!f)return alert('اختر ملف النسخة الاحتياطية أولاً');if(!confirm('سيتم استبدال البيانات الحالية. هل تريد المتابعة؟'))return;let r=new FileReader();r.onload=()=>{try{let obj=JSON.parse(r.result),data=obj.data||obj;if(!data.patients||!data.items||!data.sales)throw Error('bad');db={...structuredClone(initial),...data};save();alert('تمت استعادة البيانات')}catch(e){alert('الملف غير صالح أو لا يحتوي على نسخة متوافقة')}};r.readAsText(f)}
+function renderAll(){renderDashboard();renderPatients();renderInventory();renderServices();renderVisits();renderPurchases();renderSales();renderReports()}
+renderAll();
+</script>
+</body></html>
